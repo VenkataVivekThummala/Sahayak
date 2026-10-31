@@ -1,0 +1,211 @@
+/* Modern Advanced Design System for Government Sahayak */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Telugu:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Color Palette */
+  --color-paper: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-surface-subtle: #F1F5F9;
+  --color-ink: #0F172A;
+  --color-ink-2: #475569;
+  --color-ink-muted: #94A3B8;
+  --color-rule: #E2E8F0;
+  --color-rule-subtle: #F1F5F9;
+
+  /* Government Brand Tones */
+  --color-navy: #0F284E;
+  --color-navy-dark: #0A1931;
+  --color-navy-light: #1E3A8A;
+  --color-saffron: #D97706;
+  --color-saffron-light: #F59E0B;
+  --color-saffron-bg: #FEF3C7;
+  --color-emerald: #059669;
+  --color-emerald-light: #10B981;
+  --color-emerald-bg: #D1FAE5;
+  --color-bad: #DC2626;
+  --color-bad-bg: #FEE2E2;
+
+  /* Status Colors */
+  --color-ok: #059669;
+  --color-warn: #D97706;
+  --color-warn-bg: #FEF3C7;
+
+  /* Typography */
+  --font-family: 'Plus Jakarta Sans', 'Noto Sans Telugu', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  /* Shadows & Elevation */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-glow-blue: 0 0 25px rgba(30, 58, 138, 0.25);
+  --shadow-glow-saffron: 0 0 25px rgba(217, 119, 6, 0.3);
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Modern Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-subtle);
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-navy) 0%, #173868 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 22px;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(15, 40, 78, 0.25);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #173868 0%, #204B8A 100%);
+  box-shadow: 0 6px 16px rgba(15, 40, 78, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: var(--color-navy);
+  border: 1.5px solid var(--color-rule);
+  padding: 10px 18px;
+  font-size: 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-navy);
+  background-color: var(--color-surface-subtle);
+  transform: translateY(-1px);
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.badge-open {
+  background-color: var(--color-warn-bg);
+  color: var(--color-warn);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
+
+.badge-assigned {
+  background-color: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid rgba(29, 78, 216, 0.25);
+}
+
+.badge-closed {
+  background-color: var(--color-emerald-bg);
+  color: var(--color-emerald);
+  border: 1px solid rgba(5, 150, 105, 0.25);
+}
+
+/* Form Controls */
+input, select, textarea {
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  background-color: #FFFFFF;
+  transition: all 180ms ease;
+  width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-navy-light);
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.12);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--color-ink-muted);
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Animations */
+@keyframes pulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.status-dot-active {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10B981;
+  display: inline-block;
+  animation: pulseDot 2s infinite ease-in-out;
+}

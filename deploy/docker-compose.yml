@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sahayak_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-sahayak}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sahayak_secure_pwd_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-sahayak_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sahayak -d sahayak_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: sahayak_backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      APP_ENV: ${APP_ENV:-production}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-sahayak}:${POSTGRES_PASSWORD:-sahayak_secure_pwd_2026}@postgres:5432/${POSTGRES_DB:-sahayak_db}
+      JWT_SECRET: ${JWT_SECRET}
+      RATE_LIMIT_PER_MINUTE: ${RATE_LIMIT_PER_MINUTE:-60}
+      SIMILARITY_THRESHOLD: ${SIMILARITY_THRESHOLD:-0.22}
+      LLM_PROVIDER: ${LLM_PROVIDER:-none}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY:-}
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+
+  helpdesk-web:
+    build:
+      context: ../helpdesk-web
+      dockerfile: Dockerfile
+    container_name: sahayak_helpdesk_web
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: sahayak_caddy
+    restart: always
+    depends_on:
+      - backend
+      - helpdesk-web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

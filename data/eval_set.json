@@ -1,0 +1,478 @@
+{
+  "intent_questions": [
+    {
+      "message": "What documents are required for PM Kisan?",
+      "language": "en",
+      "expected_scheme_id": "pm-kisan",
+      "expected_intent": "documents"
+    },
+    {
+      "message": "పీఎం కిసాన్ పథకానికి ఏయే పత్రాలు కావాలి?",
+      "language": "te",
+      "expected_scheme_id": "pm-kisan",
+      "expected_intent": "documents"
+    },
+    {
+      "message": "How do I apply for Ayushman Bharat card?",
+      "language": "en",
+      "expected_scheme_id": "pm-jay",
+      "expected_intent": "apply"
+    },
+    {
+      "message": "ఆయుష్మాన్ భారత్ కార్డు కోసం ఎలా దరఖాస్తు చేసుకోవాలి?",
+      "language": "te",
+      "expected_scheme_id": "pm-jay",
+      "expected_intent": "apply"
+    },
+    {
+      "message": "What are the benefits of Sukanya Samriddhi Yojana?",
+      "language": "en",
+      "expected_scheme_id": "ssy",
+      "expected_intent": "benefits"
+    },
+    {
+      "message": "సుకున్య సమృద్ధి యోజన ప్రయోజనాలు ఏమిటి?",
+      "language": "te",
+      "expected_scheme_id": "ssy",
+      "expected_intent": "benefits"
+    },
+    {
+      "message": "Tell me about PMAY Gramin housing scheme",
+      "language": "en",
+      "expected_scheme_id": "pmay-g",
+      "expected_intent": "overview"
+    },
+    {
+      "message": "ప్రధాన మంత్రి ఆవాస్ యోజన గ్రామీణ వివరాలు చెప్పండి",
+      "language": "te",
+      "expected_scheme_id": "pmay-g",
+      "expected_intent": "overview"
+    },
+    {
+      "message": "Am I eligible for old age pension?",
+      "language": "en",
+      "expected_scheme_id": null,
+      "expected_intent": "clarify"
+    },
+    {
+      "message": "నాకు వృద్ధాప్య పెన్షన్ వస్తుందా?",
+      "language": "te",
+      "expected_scheme_id": null,
+      "expected_intent": "clarify"
+    },
+    {
+      "message": "Who is eligible for Post Matric SC Scholarship?",
+      "language": "en",
+      "expected_scheme_id": "post-matric-sc",
+      "expected_intent": "eligibility_question"
+    },
+    {
+      "message": "ఎస్సీ పోస్ట్ మెట్రిక్ స్కాలర్‌షిప్ ఎవరికి వస్తుంది?",
+      "language": "te",
+      "expected_scheme_id": "post-matric-sc",
+      "expected_intent": "eligibility_question"
+    }
+  ],
+  "retrieval_questions": [
+    {
+      "query": "free hospital treatment up to 5 lakh rupees",
+      "language": "en",
+      "expected_scheme_id": "pm-jay",
+      "expected_section": "benefits"
+    },
+    {
+      "query": "5 లక్షల వరకు ఉచిత ఆసుపత్రి చికిత్స",
+      "language": "te",
+      "expected_scheme_id": "pm-jay",
+      "expected_section": "benefits"
+    },
+    {
+      "query": "6000 rupees direct payment for farmers with cultivable land",
+      "language": "en",
+      "expected_scheme_id": "pm-kisan",
+      "expected_section": "overview"
+    },
+    {
+      "query": "రైతులకు 6000 రూపాయల పెట్టుబడి సాయం",
+      "language": "te",
+      "expected_scheme_id": "pm-kisan",
+      "expected_section": "overview"
+    },
+    {
+      "query": "bank deposit scheme for daughter under 10 years age with tax benefit",
+      "language": "en",
+      "expected_scheme_id": "ssy",
+      "expected_section": "overview"
+    },
+    {
+      "query": "10 ఏళ్ల లోపు ఆడపిల్లల కోసం పోస్టాఫీస్ పొదుపు ఖాతా",
+      "language": "te",
+      "expected_scheme_id": "ssy",
+      "expected_section": "overview"
+    },
+    {
+      "query": "financial assistance for building pucca house in rural village",
+      "language": "en",
+      "expected_scheme_id": "pmay-g",
+      "expected_section": "benefits"
+    },
+    {
+      "query": "గ్రామీణ ప్రాంతంలో పక్కా ఇల్లు కట్టుకోవడానికి నిధులు",
+      "language": "te",
+      "expected_scheme_id": "pmay-g",
+      "expected_section": "benefits"
+    },
+    {
+      "query": "tuition fee reimbursement for degree college students with income under 2.5 lakh",
+      "language": "en",
+      "expected_scheme_id": "post-matric-sc",
+      "expected_section": "eligibility"
+    },
+    {
+      "query": "కాలేజీ చదువుతున్న పేద ఎస్సీ విద్యార్థులకు ఫీజు రీయింబర్స్‌మెంట్",
+      "language": "te",
+      "expected_scheme_id": "post-matric-sc",
+      "expected_section": "eligibility"
+    }
+  ],
+  "out_of_scope_questions": [
+    {
+      "query": "How do I renew my two-wheeler commercial driving license?",
+      "language": "en"
+    },
+    {
+      "query": "నా టూవీలర్ డ్రైవింగ్ లైసెన్స్ రెన్యూవల్ ఎలా చేసుకోవాలి?",
+      "language": "te"
+    },
+    {
+      "query": "What are the passport renewal fees for Tatkaal application?",
+      "language": "en"
+    },
+    {
+      "query": "తత్కాల్ పాస్‌పోర్ట్ రుసుము ఎంత చెల్లించాలి?",
+      "language": "te"
+    },
+    {
+      "query": "Which mutual funds or stocks should I buy for high returns today?",
+      "language": "en"
+    },
+    {
+      "query": "స్టాక్ మార్కెట్లో ఏ షేర్లు కొంటే మంచి లాభాలు వస్తాయి?",
+      "language": "te"
+    },
+    {
+      "query": "How to register a criminal divorce complaint in high court?",
+      "language": "en"
+    },
+    {
+      "query": "కోర్టులో విడాకుల పిటిషన్ ఎలా ఫైల్ చేయాలి?",
+      "language": "te"
+    }
+  ],
+  "eligibility_cases": [
+    {
+      "case_id": "CASE-01",
+      "scheme_id": "pm-kisan",
+      "description": "Farmer with cultivable land, no institutional hold, no constitutional post, no income tax -> Eligible",
+      "facts": {
+        "owns_cultivable_land": true,
+        "is_institutional_landholder": false,
+        "holds_constitutional_post": false,
+        "is_income_tax_payer": false
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-02",
+      "scheme_id": "pm-kisan",
+      "description": "Farmer who pays income tax -> Not eligible",
+      "facts": {
+        "owns_cultivable_land": true,
+        "is_institutional_landholder": false,
+        "holds_constitutional_post": false,
+        "is_income_tax_payer": true
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-03",
+      "scheme_id": "pm-kisan",
+      "description": "Person without agricultural land -> Not eligible",
+      "facts": {
+        "owns_cultivable_land": false,
+        "is_institutional_landholder": false,
+        "holds_constitutional_post": false,
+        "is_income_tax_payer": false
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-04",
+      "scheme_id": "pm-kisan",
+      "description": "Missing income tax fact -> Cannot determine",
+      "facts": {
+        "owns_cultivable_land": true,
+        "is_institutional_landholder": false,
+        "holds_constitutional_post": false
+      },
+      "expected_status": "cannot_determine",
+      "expected_missing_fields": [
+        "is_income_tax_payer"
+      ],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-05",
+      "scheme_id": "ignoaps",
+      "description": "Age 65, BPL card -> Eligible",
+      "facts": {
+        "age": 65,
+        "is_bpl": true
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-06",
+      "scheme_id": "ignoaps",
+      "description": "Age 60 exact boundary, BPL card -> Eligible",
+      "facts": {
+        "age": 60,
+        "is_bpl": true
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-07",
+      "scheme_id": "ignoaps",
+      "description": "Age 59 boundary, BPL card -> Not eligible",
+      "facts": {
+        "age": 59,
+        "is_bpl": true
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-08",
+      "scheme_id": "ignoaps",
+      "description": "Age 70, not BPL -> Not eligible",
+      "facts": {
+        "age": 70,
+        "is_bpl": false
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-09",
+      "scheme_id": "ignoaps",
+      "description": "Age 75, BPL unknown -> Cannot determine",
+      "facts": {
+        "age": 75
+      },
+      "expected_status": "cannot_determine",
+      "expected_missing_fields": [
+        "is_bpl"
+      ],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-10",
+      "scheme_id": "ntr-bharosa-oap",
+      "description": "AP resident, age 67, BPL -> Eligible without warning",
+      "facts": {
+        "ap_resident": true,
+        "age": 67,
+        "is_bpl": true
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": false
+    },
+    {
+      "case_id": "CASE-11",
+      "scheme_id": "ntr-bharosa-oap",
+      "description": "AP resident, age 62, BPL -> Eligible with advisory warning (age between 60 and 64)",
+      "facts": {
+        "ap_resident": true,
+        "age": 62,
+        "is_bpl": true
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": true
+    },
+    {
+      "case_id": "CASE-12",
+      "scheme_id": "ntr-bharosa-oap",
+      "description": "Non-AP resident, age 65, BPL -> Not eligible",
+      "facts": {
+        "ap_resident": false,
+        "age": 65,
+        "is_bpl": true
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-13",
+      "scheme_id": "ntr-bharosa-oap",
+      "description": "AP resident, age 58, BPL -> Not eligible",
+      "facts": {
+        "ap_resident": true,
+        "age": 58,
+        "is_bpl": true
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-14",
+      "scheme_id": "pm-jay",
+      "description": "Senior citizen age 72 -> Eligible immediately under Path 1 without list check",
+      "facts": {
+        "age": 72
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-15",
+      "scheme_id": "pm-jay",
+      "description": "Age 45, in SECC deprivation list -> Eligible under Path 2",
+      "facts": {
+        "age": 45,
+        "in_secc_deprivation_list": true
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-16",
+      "scheme_id": "pm-jay",
+      "description": "Age 45, not in SECC list -> Not eligible",
+      "facts": {
+        "age": 45,
+        "in_secc_deprivation_list": false
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-17",
+      "scheme_id": "pm-jay",
+      "description": "Age 45, SECC list unknown -> Cannot determine",
+      "facts": {
+        "age": 45
+      },
+      "expected_status": "cannot_determine",
+      "expected_missing_fields": [
+        "in_secc_deprivation_list"
+      ],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-18",
+      "scheme_id": "pmay-g",
+      "description": "No pucca house, approved in PMAY-G list -> Eligible",
+      "facts": {
+        "has_pucca_house": false,
+        "in_pmayg_beneficiary_list": true
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-19",
+      "scheme_id": "pmay-g",
+      "description": "No pucca house, but NOT in PMAY-G list -> Not eligible",
+      "facts": {
+        "has_pucca_house": false,
+        "in_pmayg_beneficiary_list": false
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-20",
+      "scheme_id": "pmay-g",
+      "description": "No pucca house, but list fact unconfirmed -> Cannot determine (never eligible without list fact)",
+      "facts": {
+        "has_pucca_house": false
+      },
+      "expected_status": "cannot_determine",
+      "expected_missing_fields": [
+        "in_pmayg_beneficiary_list"
+      ],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-21",
+      "scheme_id": "ssy",
+      "description": "Girl child aged 8 -> Eligible",
+      "facts": {
+        "is_girl_child": true,
+        "girl_child_age": 8
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-22",
+      "scheme_id": "ssy",
+      "description": "Girl child aged 10 exact boundary -> Eligible",
+      "facts": {
+        "is_girl_child": true,
+        "girl_child_age": 10
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-23",
+      "scheme_id": "ssy",
+      "description": "Girl child aged 12 -> Not eligible",
+      "facts": {
+        "is_girl_child": true,
+        "girl_child_age": 12
+      },
+      "expected_status": "not_eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    },
+    {
+      "case_id": "CASE-24",
+      "scheme_id": "post-matric-sc",
+      "description": "SC student, enrolled post-matric, income 2,50,000 (boundary) -> Eligible; income 2,50,001 -> Not eligible",
+      "facts": {
+        "is_sc_category": true,
+        "is_enrolled_post_matric": true,
+        "annual_income": 250000
+      },
+      "expected_status": "eligible",
+      "expected_missing_fields": [],
+      "expected_warning": null
+    }
+  ]
+}

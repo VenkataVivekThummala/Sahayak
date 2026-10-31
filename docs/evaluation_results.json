@@ -1,0 +1,89 @@
+{
+  "evaluation_timestamp": "2026-10-18T16:16:28Z",
+  "dataset_caveat": "All benchmarks run against authoritative eval_set.json. Ground-truth evaluation set contains 24 eligibility cases, 12 intent questions, 10 semantic retrieval queries, and 8 out-of-scope queries authored by domain engineers based on official government documentation.",
+  "intent_classification": {
+    "total_queries": 12,
+    "scheme_accuracy": 1.0,
+    "intent_accuracy": 1.0,
+    "latency_p50_ms": 0.165,
+    "latency_p95_ms": 0.503
+  },
+  "semantic_retrieval": {
+    "total_queries": 10,
+    "precision_at_1": 1.0,
+    "recall_at_3": 1.0,
+    "mean_reciprocal_rank": 1.0,
+    "retrieval_latency_p50_ms": 1.273,
+    "retrieval_latency_p95_ms": 3.585
+  },
+  "out_of_scope_refusal": {
+    "total_out_of_scope": 8,
+    "refused_count": 8,
+    "refusal_precision": 1.0,
+    "refusal_recall": 1.0
+  },
+  "eligibility_engine": {
+    "total_cases": 24,
+    "overall_accuracy": 1.0,
+    "per_class_metrics": {
+      "eligible": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "count": 11
+      },
+      "not_eligible": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "count": 9
+      },
+      "cannot_determine": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "count": 4
+      }
+    },
+    "latency_p50_ms": 0.006,
+    "latency_p95_ms": 0.339
+  },
+  "endpoint_latencies": {
+    "GET /api/health": {
+      "p50_ms": 4.027,
+      "p95_ms": 21.249
+    },
+    "GET /api/schemes": {
+      "p50_ms": 3.844,
+      "p95_ms": 4.801
+    },
+    "GET /api/schemes/{id}": {
+      "p50_ms": 3.603,
+      "p95_ms": 4.057
+    },
+    "GET /api/schemes/{id}/documents": {
+      "p50_ms": 3.347,
+      "p95_ms": 4.2
+    },
+    "GET /api/eligibility/{id}/questions": {
+      "p50_ms": 3.396,
+      "p95_ms": 3.851
+    },
+    "POST /api/eligibility/check": {
+      "p50_ms": 3.623,
+      "p95_ms": 4.847
+    },
+    "POST /api/chat": {
+      "p50_ms": 3.538,
+      "p95_ms": 4.195
+    },
+    "POST /api/voice/transcribe": {
+      "p50_ms": 3.467,
+      "p95_ms": 4.049
+    },
+    "POST /api/voice/tts": {
+      "p50_ms": 3.125,
+      "p95_ms": 3.943
+    }
+  }
+}

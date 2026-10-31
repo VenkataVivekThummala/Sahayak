@@ -1,0 +1,24 @@
+# Caddy configuration for Government Sahayak
+# Automatically provisions Let's Encrypt TLS certificates in production
+
+{$DOMAIN:localhost} {
+    encode gzip zstd
+
+    # API endpoints routed to FastAPI backend
+    handle /api/* {
+        reverse_proxy backend:8000
+    }
+
+    # Staff Helpdesk Dashboard
+    handle /* {
+        reverse_proxy helpdesk-web:80
+    }
+
+    # Security headers
+    header {
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+}

@@ -1,0 +1,118 @@
+{
+  "age": {
+    "type": "number",
+    "min": 0,
+    "max": 120,
+    "en": "What is your age in years?",
+    "te": "మీ వయస్సు ఎన్ని సంవత్సరాలు?"
+  },
+  "annual_income": {
+    "type": "number",
+    "min": 0,
+    "max": 10000000,
+    "en": "What is your total annual household income in Rupees?",
+    "te": "మీ కుటుంబ వార్షిక ఆదాయం ఎంత రూపాయలు?"
+  },
+  "ap_resident": {
+    "type": "bool",
+    "en": "Are you a permanent resident of Andhra Pradesh?",
+    "te": "మీరు ఆంధ్రప్రదేశ్ శాశ్వత నివాసియేనా?"
+  },
+  "is_bpl": {
+    "type": "bool",
+    "en": "Does your family have a BPL (Below Poverty Line) or Rice ration card?",
+    "te": "మీ కుటుంబానికి BPL లేదా తెల్ల రేషన్ కార్డు ఉందా?"
+  },
+  "owns_cultivable_land": {
+    "type": "bool",
+    "en": "Does your family own cultivable agricultural land?",
+    "te": "మీ కుటుంబానికి సాగు భూమి ఉందా?"
+  },
+  "is_institutional_landholder": {
+    "type": "bool",
+    "en": "Is the agricultural land held institutionally (e.g., trust, company, government)?",
+    "te": "ఆ భూమి సంస్థాగత భూమియా (ట్రస్ట్, కంపెనీ లేదా ప్రభుత్వ భూమి)?"
+  },
+  "holds_constitutional_post": {
+    "type": "bool",
+    "en": "Does any family member hold or previously held a constitutional post or government job?",
+    "te": "కుటుంబంలో ఎవరైనా రాజ్యాంగ పదవి లేదా ప్రభుత్వ ఉద్యోగం కలిగి ఉన్నారా?"
+  },
+  "is_income_tax_payer": {
+    "type": "bool",
+    "en": "Did any family member pay income tax in the last assessment year?",
+    "te": "మీ కుటుంబంలో ఎవరైనా గత సంవత్సరంలో ఆదాయపు పన్ను చెల్లించారా?"
+  },
+  "in_secc_deprivation_list": {
+    "type": "bool",
+    "en": "Is your family listed in the SECC (Socio-Economic Caste Census) or Ayushman Bharat beneficiary list?",
+    "te": "మీ కుటుంబం SECC లేదా ఆయుష్మాన్ భారత్ అధికారిక లబ్ధిదారుల జాబితాలో ఉందా?"
+  },
+  "has_pucca_house": {
+    "type": "bool",
+    "en": "Do you or any family member already own a pucca (brick/concrete) house?",
+    "te": "మీకు లేదా మీ కుటుంబానికి స్వంత పక్కా ఇల్లు ఉందా?"
+  },
+  "in_pmayg_beneficiary_list": {
+    "type": "bool",
+    "en": "Is your name approved in the Gram Sabha / Awaas+ permanent waitlist for PMAY-G?",
+    "te": "మీ పేరు గ్రామసభ లేదా ఆవాస్+ శాశ్వత వెయిటింగ్ లిస్టులో ఆమోదించబడిందా?"
+  },
+  "is_girl_child": {
+    "type": "bool",
+    "en": "Is the account being opened for a girl child?",
+    "te": "ఈ ఖాతాను ఆడపిల్ల పేరు మీద తెరుస్తున్నారా?"
+  },
+  "girl_child_age": {
+    "type": "number",
+    "min": 0,
+    "max": 25,
+    "en": "What is the age of the girl child in years?",
+    "te": "ఆడపిల్ల వయస్సు ఎన్ని సంవత్సరాలు?"
+  },
+  "is_sc_category": {
+    "type": "bool",
+    "en": "Does the student belong to the Scheduled Caste (SC) category?",
+    "te": "విద్యార్థి షెడ్యూల్డ్ కులం (SC) వర్గానికి చెందినవారా?"
+  },
+  "is_enrolled_post_matric": {
+    "type": "bool",
+    "en": "Is the student enrolled in a recognized post-matric course (Class 11, degree, diploma, PG)?",
+    "te": "విద్యార్థి గుర్తింపు పొందిన పోస్ట్-మెట్రిక్ కోర్సులో (11వ తరగతి, డిగ్రీ, డిప్లొమా, పీజీ) చదువుతున్నారా?"
+  },
+  "child_in_school": {
+    "type": "bool",
+    "en": "Does your family have a school-going child enrolled in Class 1 to Intermediate (Class 12)?",
+    "te": "మీ కుటుంబంలో 1వ తరగతి నుండి ఇంటర్ వరకు పాఠశాల లేదా కళాశాలలో చదువుతున్న పిల్లలు ఉన్నారా?"
+  },
+  "child_attendance_gte_75": {
+    "type": "bool",
+    "en": "Does the school or college student maintain at least 75% verified annual attendance?",
+    "te": "విద్యార్థికి పాఠశాల లేదా కళాశాలలో కనీసం 75% ధృవీకరించిన వార్షిక హాజరు ఉందా?"
+  },
+  "has_active_lpg_connection": {
+    "type": "bool",
+    "en": "Does your household hold an active domestic LPG cooking gas cylinder connection in Andhra Pradesh?",
+    "te": "మీ కుటుంబానికి ఆంధ్రప్రదేశ్‌లో యాక్టివ్ దేశీయ వంట గ్యాస్ (LPG) కనెక్షన్ ఉందా?"
+  },
+  "is_female": {
+    "type": "bool",
+    "en": "Is the beneficiary or applicant a woman or female?",
+    "te": "దరఖాస్తుదారు లేదా లబ్ధిదారు మహిళయేనా?"
+  },
+  "is_unemployed_youth": {
+    "type": "bool",
+    "en": "Are you currently an unemployed youth actively seeking full-time employment or skill training?",
+    "te": "మీరు ప్రస్తుతం నిరుద్యోగిగా ఉండి పూర్తి స్థాయి ఉద్యోగం లేదా నైపుణ్య శిక్షణ కోసం చూస్తున్నారా?"
+  },
+  "has_diploma_or_degree": {
+    "type": "bool",
+    "en": "Do you hold a recognized Diploma, ITI, or University Graduate Degree?",
+    "te": "మీరు గుర్తింపు పొందిన పాలిటెక్నిక్ డిప్లొమా, ఐటీఐ లేదా యూనివర్సిటీ డిగ్రీ పూర్తి చేశారా?"
+  },
+  "enrolled_in_higher_education": {
+    "type": "bool",
+    "en": "Is the student enrolled in an approved Polytechnic, ITI, Engineering, Degree, or Professional college in AP?",
+    "te": "విద్యార్థి ఏపీలోని గుర్తింపు పొందిన పాలిటెక్నిక్, ఐటీఐ, ఇంజనీరింగ్, డిగ్రీ లేదా ప్రొఫెషనల్ కళాశాలలో చదువుతున్నారా?"
+  }
+}
