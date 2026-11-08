@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from ..knowledge import load_schemes, get_primary_source
 from ..config import SIMILARITY_THRESHOLD
+from ..nlp.intent import preprocess_tanglish
 
 # NOTE ON CALIBRATION:
 # The default similarity threshold of 0.22 was calibrated on our in-domain vs out-of-scope
@@ -141,24 +142,56 @@ class Retriever:
         self.chunk_vectors = self.vectorizer.fit_transform(corpus_texts)
 
     QUERY_SYNONYMS = {
+        # English synonyms
         "daughter": "daughter girl child sukanya samriddhi",
         "daughters": "daughter girl child sukanya samriddhi",
         "girl child": "girl child sukanya samriddhi",
+        "hospital": "hospital treatment ayushman arogya health insurance",
+        "medical": "medical hospital ayushman arogya health",
+        "health": "health hospital ayushman arogya medical insurance",
+        "farmers": "farmers kisan samman nidhi pm-kisan agriculture",
+        "farmer": "farmer kisan samman nidhi pm-kisan agriculture",
+        "pension": "pension old age ntr bharosa ignoaps vruddhapya",
+        "pensions": "pensions old age ntr bharosa ignoaps pension",
+        "house": "house housing pmay awaas gramin",
+        "housing": "housing house pmay awaas gramin",
+        "gas": "gas cylinder cooking lpg deepam free",
+        "scholarship": "scholarship fee reimbursement vidya deevena education",
+        "women": "women welfare mahashakti aadabidda deepam bus",
+        "bus": "bus apsrtc mahashakti free travel women",
+        "youth": "youth yuvagalam unemployed nirudyoga",
+        "unemployed": "unemployed unemployment yuvagalam allowance",
+        "education": "education vidya deevena scholarship fee college",
+        # Telugu synonyms
         "ఆడపిల్ల": "ఆడపిల్ల సుకన్య సమృద్ధి బాలిక",
         "ఆడపిల్లల": "ఆడపిల్ల సుకన్య సమృద్ధి బాలిక",
-        "hospital": "hospital treatment ayushman arogya",
         "చికిత్స": "ఆసుపత్రి చికిత్స ఆయుష్మాన్ ఆరోగ్య",
-        "farmers": "farmers kisan samman nidhi",
-        "రైతులకు": "రైతులకు కిసాన్ సమ్మాన్ నిధి"
+        "రైతులకు": "రైతులకు కిసాన్ సమ్మాన్ నిధి",
+        "రైతు": "రైతు కిసాన్ సమ్మాన్ నిధి",
+        "పెన్షన్": "పెన్షన్ వృద్ధాప్య పింఛను నిర్మలా",
+        "పింఛను": "పింఛను వృద్ధాప్య పెన్షన్",
+        "ఇల్లు": "ఇల్లు గృహ పథకం ఆవాస్",
+        "గ్యాస్": "గ్యాస్ సిలిండర్ దీపం ఉచిత",
+        "మహిళలు": "మహిళలు ఉచిత బస్సు మహాశక్తి ఆడబిడ్డ",
+        "విద్యార్థులు": "విద్యార్థులు ఫీజు స్కాలర్‌షిప్ విద్యా దీవెన",
     }
 
     def expand_query(self, query: str) -> str:
-        """Enhance welfare retrieval accuracy through conservative domain term expansion."""
-        expanded = query
-        lower = query.lower()
+        """
+        Enhance welfare retrieval accuracy through:
+        1. Tanglish (Romanized Telugu) preprocessing → expands to English equivalents
+        2. Conservative domain term synonym expansion
+        """
+        # Step 1: Expand Tanglish words to English equivalents
+        expanded = preprocess_tanglish(query)
+        lower = expanded.lower()
+        # Step 2: Domain synonym expansion
+        synonyms_to_add: List[str] = []
         for term, syn in self.QUERY_SYNONYMS.items():
             if term in lower:
-                expanded += f" {syn}"
+                synonyms_to_add.append(syn)
+        if synonyms_to_add:
+            expanded = expanded + " " + " ".join(synonyms_to_add)
         return expanded
 
     def retrieve(self, query: str, top_k: int = 3, target_lang: Optional[str] = None) -> List[Tuple[KnowledgeChunk, float]]:

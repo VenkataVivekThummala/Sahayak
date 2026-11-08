@@ -170,10 +170,12 @@ def create_app(
 
     @app.exception_handler(Exception)
     async def generic_exception_handler(request: Request, exc: Exception):
+        import traceback
+        traceback.print_exc()
         return JSONResponse(
             status_code=500,
             content={
-                "detail": "Sorry, something went wrong on our side. Please try again in a moment. / క్షమించండి, మా వైపు ఏదో సమస్య వచ్చింది. కొద్దిసేపటి తర్వాత మళ్లీ ప్రయత్నించండి."
+                "detail": f"Sorry, an unexpected error occurred. / క్షమించండి, ఊహించని లోపం జరిగింది: {str(exc)}"
             }
         )
 
@@ -424,12 +426,42 @@ def create_app(
         req: ChatRequest,
         _=Depends(rate_limit_check)
     ):
-        return _chat_service.handle_message(
-            message=req.message,
-            language=req.language,
-            session=req.session,
-            scheme_id=req.scheme_id
-        )
+        clean_scheme_id = (req.scheme_id or "").strip() or None
+        try:
+            return _chat_service.handle_message(
+                message=req.message or "",
+                language=req.language or "te",
+                session=req.session,
+                scheme_id=clean_scheme_id
+            )
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            lang = req.language or "te"
+            fallback_msg = (
+                "మీ అభ్యర్థనను ప్రాసెస్ చేయడంలో చిన్న సాంకేతిక లోపం వచ్చింది. దయచేసి మళ్లీ అడగండి లేదా దిగువన ఒక పథకాన్ని ఎంచుకోండి."
+                if lang == "te" else
+                "A brief processing issue occurred. Please ask again or select one of the official schemes below:"
+            )
+            schemes_list = load_schemes()
+            choice_objs = [
+                {"scheme_id": s["scheme_id"], "name": s.get(f"name_{lang}", s.get("name_en", s["scheme_id"]))}
+                for s in schemes_list[:5]
+            ]
+            return {
+                "answer": fallback_msg,
+                "speech_text": fallback_msg,
+                "language": lang,
+                "intent": "clarify",
+                "scheme_id": None,
+                "sources": [],
+                "confidence": "low",
+                "next_question": None,
+                "eligibility": None,
+                "choices": choice_objs,
+                "session": req.session or {},
+                "disclaimer": get_disclaimer(lang)
+            }
 
     @app.post("/api/voice/transcribe")
     async def voice_transcribe(

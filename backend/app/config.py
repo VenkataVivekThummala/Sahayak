@@ -15,7 +15,7 @@ JWT_ALGORITHM = "HS256"
 JWT_EXPIRY_HOURS = 8
 
 RATE_LIMIT_PER_MINUTE = int(os.getenv("RATE_LIMIT_PER_MINUTE", "60"))
-SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.22"))
+SIMILARITY_THRESHOLD = float(os.getenv("SIMILARITY_THRESHOLD", "0.12"))
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "none")  # "none" or "anthropic"
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 LLM_MODEL = os.getenv("LLM_MODEL", "claude-sonnet-5-5")

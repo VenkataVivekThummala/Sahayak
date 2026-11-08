@@ -5,7 +5,7 @@ from ..config import SIMILARITY_THRESHOLD, get_disclaimer
 from ..nlp.extract import (
     detect_language, extract_age, extract_income, extract_number, extract_yes_no
 )
-from ..nlp.intent import match_scheme, detect_topic, is_out_of_scope
+from ..nlp.intent import match_scheme, detect_topic, is_out_of_scope, is_greeting, match_category_query, preprocess_tanglish
 from ..eligibility.engine import check_eligibility
 from .retriever import get_retriever
 from .guard import verify_faithfulness
@@ -30,6 +30,9 @@ class ChatService:
         lang = language or detect_language(raw_msg)
         if lang not in ["en", "te"]:
             lang = "en"
+
+        # Expand Tanglish (Romanized Telugu) words so intent matching and RAG retrieval work correctly
+        expanded_msg = preprocess_tanglish(raw_msg)
 
         sess = dict(session) if session else {}
         facts = dict(sess.get("facts", {}))
@@ -56,6 +59,82 @@ class ChatService:
                 "session": sess,
                 "disclaimer": disclaimer
             }
+
+        # Greeting / Introductory inquiry
+        if is_greeting(expanded_msg) and not pending_field and not scheme_id:
+            schemes_dict = load_schemes_by_id()
+            suggested_ids = ["pm-kisan", "ntr-bharosa-oap", "deepam-2", "pm-jay", "talliki-vandanam"]
+            choice_objs = []
+            for cid in suggested_ids:
+                s_obj = schemes_dict.get(cid)
+                if s_obj:
+                    choice_objs.append({
+                        "scheme_id": cid,
+                        "name": s_obj.get(f"name_{lang}", s_obj.get("name_en", cid))
+                    })
+            if lang == "te":
+                welcome = (
+                    "నమస్కారం! నేను మీ ప్రభుత్వ సహాయక్ వాయిస్ అసిస్టెంట్‌ని. "
+                    "ఆంధ్రప్రదేశ్ మరియు కేంద్ర ప్రభుత్వ సంక్షేమ పథకాలు, అర్హతలు, కావలసిన పత్రాల గురించి నన్ను అడగండి. "
+                    "ఉదాహరణకు: 'రైతు పథకాలు', 'వృద్ధాప్య పింఛను', 'ఉచిత గ్యాస్', 'ఆయుష్మాన్ భారత్' గురించి మాట్లాడండి లేదా కింద ఉన్న పథకాన్ని ఎంచుకోండి:"
+                )
+                spoken = "నమస్కారం! నేను ప్రభుత్వ సహాయక్ అసిస్టెంట్‌ని. సంక్షేమ పథకాలు మరియు అర్హతల గురించి మాట్లాడండి."
+            else:
+                welcome = (
+                    "Namaste! I am Government Sahayak, your official welfare scheme guide. "
+                    "Ask me about AP & Central government schemes, eligibility rules, and required documents. "
+                    "You can speak your question or choose a scheme below:"
+                )
+                spoken = "Namaste! I am Government Sahayak. Ask me about any government welfare scheme."
+            return {
+                "answer": welcome,
+                "speech_text": spoken,
+                "language": lang,
+                "intent": "greeting",
+                "scheme_id": None,
+                "sources": [],
+                "confidence": "high",
+                "next_question": None,
+                "eligibility": None,
+                "choices": choice_objs,
+                "session": sess,
+                "disclaimer": disclaimer
+            }
+
+        # Category-level question (e.g. "farmer schemes", "women welfare", "housing")
+        cat_match = match_category_query(expanded_msg)
+        if cat_match and not pending_field and not scheme_id:
+            cat_name, cat_scheme_ids = cat_match
+            matched_id, _ = match_scheme(expanded_msg)
+            if not matched_id:
+                schemes_dict = load_schemes_by_id()
+                choice_objs = []
+                for cid in cat_scheme_ids:
+                    s_obj = schemes_dict.get(cid)
+                    if s_obj:
+                        choice_objs.append({
+                            "scheme_id": cid,
+                            "name": s_obj.get(f"name_{lang}", s_obj.get("name_en", cid))
+                        })
+                if choice_objs:
+                    if lang == "te":
+                        ans = "మీరు అడిగిన రంగానికి సంబంధించిన ముఖ్యమైన ప్రభుత్వ సంక్షేమ పథకాలు ఇవి. పూర్తి వివరాలు లేదా అర్హత తెలుసుకోవడానికి కింద ఉన్న పథకాన్ని ఎంచుకోండి లేదా పేరు మాట్లాడండి:"
+                    else:
+                        ans = "Here are the official welfare schemes in this category. Tap a scheme or speak its name to check benefits and eligibility:"
+                    return {
+                        "answer": ans,
+                        "speech_text": ans,
+                        "language": lang,
+                        "intent": "category_schemes",
+                        "scheme_id": None,
+                        "sources": [],
+                        "confidence": "high",
+                        "next_question": None,
+                        "eligibility": None,
+                        "choices": choice_objs,
+                        "session": sess,
+                        "disclaimer": disclaimer
+                    }
 
         # 0. Automatically absorb any facts mentioned in the message
         age_found = extract_age(raw_msg)
@@ -119,7 +198,7 @@ class ChatService:
             return self._answer_structured_scheme(active_scheme_id, topic, facts, lang, sess, disclaimer)
 
         # Decision 3: Scheme recognized in query
-        matched_id, choices = match_scheme(raw_msg)
+        matched_id, choices = match_scheme(expanded_msg)
         if choices:
             # Ambiguous scheme match (e.g. "pension") -> show choices
             sess["topic_hint"] = detect_topic(raw_msg) or "overview"
@@ -150,11 +229,11 @@ class ChatService:
         if matched_id:
             active_scheme_id = matched_id
             sess["active_scheme_id"] = matched_id
-            topic = detect_topic(raw_msg) or "overview"
+            topic = detect_topic(expanded_msg) or "overview"
             return self._answer_structured_scheme(active_scheme_id, topic, facts, lang, sess, disclaimer)
 
         # Decision 3.5: Reject queries explicitly out of scope for rural welfare schemes
-        if is_out_of_scope(raw_msg):
+        if is_out_of_scope(expanded_msg):
             no_info_text = (
                 "నాకు ధృవీకరించిన సమాచారం దొరకలేదు. దయచేసి అధికారిక వెబ్సైట్ చూడండి లేదా సహాయ కేంద్రాన్ని అడగండి."
                 if lang == "te" else
@@ -175,14 +254,30 @@ class ChatService:
                 "disclaimer": disclaimer
             }
 
-        # Decision 4: Semantic Retrieval
-        retrieval_results = self.retriever.retrieve(raw_msg, top_k=1, target_lang=lang)
+        # Decision 4: Semantic Retrieval (with Tanglish-expanded query for better recall)
+        retrieval_results = self.retriever.retrieve(expanded_msg, top_k=1, target_lang=lang)
         if not retrieval_results or retrieval_results[0][1] < SIMILARITY_THRESHOLD:
-            no_info_text = (
-                "నాకు ధృవీకరించిన సమాచారం దొరకలేదు. దయచేసి అధికారిక వెబ్సైట్ చూడండి లేదా సహాయ కేంద్రాన్ని అడగండి."
-                if lang == "te" else
-                "I could not find verified official information for this question. Please check the official government portal or contact the help desk."
-            )
+            # Fallback: offer category choices instead of blunt "no info" response
+            schemes_dict = load_schemes_by_id()
+            suggested_ids = ["pm-kisan", "ntr-bharosa-oap", "deepam-2", "pm-jay", "talliki-vandanam"]
+            choice_objs = []
+            for cid in suggested_ids:
+                s_obj = schemes_dict.get(cid)
+                if s_obj:
+                    choice_objs.append({
+                        "scheme_id": cid,
+                        "name": s_obj.get(f"name_{lang}", s_obj.get("name_en", cid))
+                    })
+            if lang == "te":
+                no_info_text = (
+                    "మీరు అడిగిన విషయంపై నాకు అధికారిక సమాచారం దొరకలేదు. "
+                    "దయచేసి క్రింద ఉన్న పథకాల నుండి ఒకదాన్ని ఎంచుకోండి లేదా మీ ప్రశ్నను వేరేగా అడగండి:"
+                )
+            else:
+                no_info_text = (
+                    "I could not find verified official information for that query. "
+                    "Please choose from the popular schemes below or rephrase your question:"
+                )
             return {
                 "answer": no_info_text,
                 "speech_text": no_info_text,
@@ -193,7 +288,7 @@ class ChatService:
                 "confidence": "none",
                 "next_question": None,
                 "eligibility": None,
-                "choices": None,
+                "choices": choice_objs,
                 "session": sess,
                 "disclaimer": disclaimer
             }
@@ -245,7 +340,30 @@ class ChatService:
         schemes = load_schemes_by_id()
         scheme = schemes.get(scheme_id)
         if not scheme:
-            raise ValueError(f"Scheme not found: {scheme_id}")
+            schemes_list = load_schemes()
+            choice_objs = [
+                {"scheme_id": s["scheme_id"], "name": s.get(f"name_{lang}", s.get("name_en", s["scheme_id"]))}
+                for s in schemes_list[:5]
+            ]
+            fallback_text = (
+                "క్షమించండి, ఆ పథకం సమాచారం సరిగ్గా లభించలేదు. దయచేసి దిగువన ఉన్న అధికారిక పథకాలలో ఒకదాన్ని ఎంచుకోండి లేదా మాట్లాడండి."
+                if lang == "te" else
+                "Sorry, the requested scheme details were not found. Please choose from the official schemes below or speak your query."
+            )
+            return {
+                "answer": fallback_text,
+                "speech_text": fallback_text,
+                "language": lang,
+                "intent": "clarify",
+                "scheme_id": None,
+                "sources": [],
+                "confidence": "low",
+                "next_question": None,
+                "eligibility": None,
+                "choices": choice_objs,
+                "session": sess,
+                "disclaimer": disclaimer
+            }
 
         name = scheme.get(f"name_{lang}", scheme["name_en"])
         sources = self._get_scheme_sources(scheme_id)
